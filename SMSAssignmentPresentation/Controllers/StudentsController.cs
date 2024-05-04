@@ -42,17 +42,22 @@ namespace SMSAssignmentPresentation.Controllers
             return Ok(token);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
+        [ResponseCache(Duration = 60)]
         public async Task<IActionResult> GetStudents()
         {
-            var students = await dbContext.Students.ToListAsync();
+            var students = await _studentManagementServices.GetAllStudents();
             return Ok(students);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("{id:guid}")]
+        [ResponseCache(Duration = 60)]
         public async Task<IActionResult> GetStudent([FromRoute] Guid id)
         {
-            var student = await dbContext.Students.FindAsync(id);
+            var student = await _studentManagementServices.GetStudent(id);  
             if(student == null)
             {
                 return NotFound();
@@ -70,6 +75,7 @@ namespace SMSAssignmentPresentation.Controllers
             return Ok(IsSuccess?"added":"Failed");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateContact([FromRoute] Guid id, UpdateStudentRequest updateStudentRequest)
@@ -85,8 +91,11 @@ namespace SMSAssignmentPresentation.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("{id:guid}")]
+
         public async Task<IActionResult> DeleteStudent([FromRoute] Guid id)
         {
             var student = await dbContext.Students.FindAsync(id);

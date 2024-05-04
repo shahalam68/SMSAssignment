@@ -24,9 +24,20 @@ namespace Repository
             return true;
         }
 
+
         public async Task<Student> GetByUserName(string userName)
         {
             Student student= await _context.Students.FirstOrDefaultAsync(i => i.UserName ==  userName);
+            return student;
+        }
+        public async Task<List<Student>> GetAllStudents()
+        {
+            List<Student> student = await _context.Students.ToListAsync();
+            return student;
+        }
+        public async Task<Student> GetStudent(Guid id)
+        {
+            Student student = await _context.Students.FindAsync(id); 
             return student;
         }
     }

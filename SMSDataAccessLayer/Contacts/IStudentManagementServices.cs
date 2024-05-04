@@ -10,5 +10,7 @@ namespace SMSDataAccessLayer.Contracts
     public interface IStudentManagementServices
     {
         Task<bool> AddStudents(AddStudentsRequest addStudentsRequest);
+        Task<List<Student>> GetAllStudents();
+        Task<Student> GetStudent(Guid id);
     }
 }
