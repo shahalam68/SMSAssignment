@@ -30,9 +30,25 @@ namespace Repository
             Student student= await _context.Students.FirstOrDefaultAsync(i => i.UserName ==  userName);
             return student;
         }
-        public async Task<List<Student>> GetAllStudents()
+        public async Task<List<Student>> GetAllStudents(int pageNumber, int pageSize, string sortBy)
         {
-            List<Student> student = await _context.Students.ToListAsync();
+            int skip = (pageNumber - 1) * pageSize;
+            var query = _context.Students.AsQueryable();
+
+            switch (sortBy)
+            {
+                case "Name":
+                    query = query.OrderBy(p => p.Name);
+                    break;
+                case "UserName":
+                    query = query.OrderBy(p => p.UserName);
+                    break;
+                default:
+                    query = query.OrderBy(p => p.Id);
+                    break;
+            }
+
+            List<Student> student = await query.Skip(skip).Take(pageSize).ToListAsync();
             return student;
         }
         public async Task<Student> GetStudent(Guid id)

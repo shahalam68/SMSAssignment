@@ -45,9 +45,9 @@ namespace SMSAssignmentPresentation.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [ResponseCache(Duration = 60)]
-        public async Task<IActionResult> GetStudents()
+        public async Task<IActionResult> GetStudents([FromQuery]StudentsQuery query)
         {
-            var students = await _studentManagementServices.GetAllStudents();
+            var students = await _studentManagementServices.GetAllStudents(query);
             return Ok(students);
         }
 

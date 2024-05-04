@@ -12,6 +12,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using SMSDataAccessLayer.Contacts;
 using SMSDataAccessLayer.Contracts;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Globalization;
 
 namespace SMSBusinessLayer.Services
 {
@@ -55,12 +56,12 @@ namespace SMSBusinessLayer.Services
 
             
         }
-        public async Task<List<Student>> GetAllStudents()
+        public async Task<List<Student>> GetAllStudents(StudentsQuery query)
         {
             try
             {
                 _loggerManager.LogInfo("started fetching alll student list");
-                List<Student> students = await _studentRepository.GetAllStudents();
+                List<Student> students = await _studentRepository.GetAllStudents(query.PageNumber, query.PageSize, query.SortBy);
                 return students;
             }
             catch (Exception ex)

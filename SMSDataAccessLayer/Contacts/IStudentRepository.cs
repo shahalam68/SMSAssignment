@@ -11,7 +11,7 @@ namespace SMSDataAccessLayer.Contacts
     {
         Task<bool> CreateStudent(Student student);
         Task<Student> GetByUserName(string userName);
-        Task<List<Student>> GetAllStudents();
+        Task<List<Student>> GetAllStudents(int pageNumber, int pageSize, string sortBy);
         Task<Student> GetStudent(Guid id);
     }
 }
