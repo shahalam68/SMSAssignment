@@ -10,9 +10,17 @@ namespace StudenMangementSystem.Data.Data
 {
     public class StudentAPIDbContext : DbContext
     {
-        public StudentAPIDbContext(DbContextOptions options) : base(options)
+        public StudentAPIDbContext(DbContextOptions<StudentAPIDbContext> options) : base(options)
         {
         }
         public DbSet<Student> Students { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=admin;Database=student");
+            }
+        }
     }
 }

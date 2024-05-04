@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Repository.Athentication;
+using SMSBusinessLayer.Services;
 using SMSDataAccessLayer.Models;
 using StudenMangementSystem.Data.Data;
 
@@ -15,10 +19,27 @@ namespace SMSAssignmentPresentation.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly StudentAPIDbContext dbContext;
+        IStudentManagementServices _studentManagementServices;
+        ILoggerManager _loggerManager;
+        IJWTManagerRepository _JWTManagerRepository;
 
-        public StudentsController(StudentAPIDbContext dbContext)
+        public StudentsController(
+            StudentAPIDbContext dbContext, 
+            IStudentManagementServices studentManagementServices, 
+            ILoggerManager loggerManager,
+            IJWTManagerRepository JWTManagerRepository)
         {
+            _studentManagementServices = studentManagementServices;
             this.dbContext = dbContext;
+            _loggerManager = loggerManager;
+            _JWTManagerRepository = JWTManagerRepository;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(StudentCredential Student)
+        {
+            var token = await _JWTManagerRepository.Authenticate(Student);
+            return Ok(token);
         }
 
         [HttpGet]
@@ -39,26 +60,14 @@ namespace SMSAssignmentPresentation.Controllers
             return Ok(student);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddStudents(AddStudentsRequest addStudentsRequest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var student = new Student()
-            {
-                Id = Guid.NewGuid(),
-                Name = addStudentsRequest.Name,
-                Email = addStudentsRequest.Email,
-                EnrolmentDate  = addStudentsRequest.EnrolmentDate,
-            };
-
-            await dbContext.Students.AddAsync(student);
-            await dbContext.SaveChangesAsync();
-
-            return Ok(student);
+            _loggerManager.LogInfo("started Post request for create student");
+            var IsSuccess = await _studentManagementServices.AddStudents(addStudentsRequest);
+            _loggerManager.LogInfo("completed Post request for create student");
+            return Ok(IsSuccess?"added":"Failed");
         }
         [HttpPut]
         [Route("{id:guid}")]
@@ -87,8 +96,6 @@ namespace SMSAssignmentPresentation.Controllers
                 return Ok(student);
             }
             return NotFound();
-
-
         }
     }
 
