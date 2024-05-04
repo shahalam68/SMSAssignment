@@ -1,6 +1,6 @@
-﻿using Contracts.repository;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SMSDataAccessLayer.Contacts;
 using SMSDataAccessLayer.Models;
 using System;
 using System.Collections.Generic;

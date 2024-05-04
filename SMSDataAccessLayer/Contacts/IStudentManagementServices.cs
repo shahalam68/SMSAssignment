@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SMSBusinessLayer.Services
+namespace SMSDataAccessLayer.Contracts
 {
     public interface IStudentManagementServices
     {

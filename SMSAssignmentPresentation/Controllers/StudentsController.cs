@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Repository.Athentication;
 using SMSBusinessLayer.Services;
+using SMSDataAccessLayer.Contacts;
+using SMSDataAccessLayer.Contracts;
 using SMSDataAccessLayer.Models;
 using StudenMangementSystem.Data.Data;
 
@@ -69,6 +69,7 @@ namespace SMSAssignmentPresentation.Controllers
             _loggerManager.LogInfo("completed Post request for create student");
             return Ok(IsSuccess?"added":"Failed");
         }
+
         [HttpPut]
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateContact([FromRoute] Guid id, UpdateStudentRequest updateStudentRequest)

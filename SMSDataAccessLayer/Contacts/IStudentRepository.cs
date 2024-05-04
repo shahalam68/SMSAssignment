@@ -1,12 +1,11 @@
-﻿
-using SMSDataAccessLayer.Models;
+﻿using SMSDataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.repository
+namespace SMSDataAccessLayer.Contacts
 {
     public interface IStudentRepository
     {

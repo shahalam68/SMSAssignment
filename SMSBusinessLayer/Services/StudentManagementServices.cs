@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Contracts;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using SMSDataAccessLayer.Models;
@@ -10,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Contracts.repository;
+using SMSDataAccessLayer.Contacts;
+using SMSDataAccessLayer.Contracts;
 
 namespace SMSBusinessLayer.Services
 {
@@ -38,8 +38,11 @@ namespace SMSBusinessLayer.Services
             {
                 _loggerManager.LogInfo("started added new enty");
                 _loggerManager.LogInfo(JsonSerializer.Serialize(addStudentsRequest));
+
                 var student = _mapper.Map<Student>(addStudentsRequest);
+
                 student.Id = Guid.NewGuid();
+
                 await _studentRepository.CreateStudent(student);
                 _loggerManager.LogInfo("successfully added new entry");
                 return true;

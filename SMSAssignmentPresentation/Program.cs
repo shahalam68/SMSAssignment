@@ -5,14 +5,14 @@ using SMSBusinessLayer.Services;
 using StudenMangementSystem.Data.Data;
 using Microsoft.Extensions.Configuration;
 using NLog;
-using Contracts;
 using LoggerServices;
 using Repository;
-using Contracts.repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Athentication;
 using System.Text;
+using SMSDataAccessLayer.Contacts;
+using SMSDataAccessLayer.Contracts;
 
 namespace SMSAssignmentPresentation
 {
@@ -23,7 +23,7 @@ namespace SMSAssignmentPresentation
             var builder = WebApplication.CreateBuilder(args);
 
             var Configuration = new ConfigurationBuilder()
-             .AddJsonFile("appsettings.Development.json", optional: false)
+             .AddJsonFile("appsettings.json", optional: false)
              .Build();
 
             LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));

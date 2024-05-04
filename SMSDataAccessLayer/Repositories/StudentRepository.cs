@@ -1,5 +1,5 @@
-﻿using Contracts.repository;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SMSDataAccessLayer.Contacts;
 using SMSDataAccessLayer.Models;
 using StudenMangementSystem.Data.Data;
 using System;

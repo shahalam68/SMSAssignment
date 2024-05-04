@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Athentication
+namespace SMSDataAccessLayer.Contacts
 {
     public interface IJWTManagerRepository
     {
